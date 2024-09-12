@@ -1,0 +1,7 @@
+I2 (net3 0) isource type=dc
+V0 (net4 0) vsource type=dc
+M1 (net2 net4 net3 0) nmos
+M0 (net1 net4 net3 0) nmos
+R2 (net3 0) resistor r=1K
+R1 (vdd! net2) resistor r=1K
+R0 (vdd! net1) resistor r=1K

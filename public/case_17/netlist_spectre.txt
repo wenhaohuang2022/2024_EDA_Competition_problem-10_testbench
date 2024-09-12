@@ -1,0 +1,12 @@
+M3 (net7 net2 0 0) nmos4
+M2 (net1 net5 0 0) nmos4
+M1 (net5 net5 0 0) nmos4
+M0 (net2 net2 0 0) nmos4
+I0 (vdd! net3) isource type=dc
+R1 (net6 0) resistor r=1K
+M19 (net1 net1 vdd! vdd!) pmos4
+M18 (net7 net1 vdd! vdd!) pmos4
+M17 (net6 net7 vdd! vdd!) pmos4
+M12 (net4 enb net3 net3) pmos4
+M11 (net5 vp net4 net4) pmos4
+M10 (net2 vn net4 net4) pmos4

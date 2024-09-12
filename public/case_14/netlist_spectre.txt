@@ -1,0 +1,6 @@
+I0 (net3 net1 net4) diffamp
+R2 (net4 net3) resistor r=1K
+R1 (net4 net1) resistor r=1K
+R0 (net1 net2) resistor r=1K
+Q1 (0 0 net3 0) pnp
+Q0 (0 0 net2 0) pnp

@@ -1,0 +1,19 @@
+M7 (net3 net1 net4 0) nmos
+M6 (net16 net1 net4 0) nmos
+M5 (net14 net1 net4 0) nmos
+M4 (sink net2 net3 0) nmos
+M3 (net1 net2 net16 0) nmos
+M2 (net15 net2 net14 0) nmos
+M1 (net7 net8 net5 0) nmos
+M0 (net8 net8 net4 0) nmos
+R1 (net2 net1) resistor r=1K
+R0 (net5 net4) resistor r=1K
+M16 (net12 net13 net10 vdd!) pmos
+M15 (net11 net13 net10 vdd!) pmos
+M14 (source net15 net12 vdd!) pmos
+M13 (net2 net15 net11 vdd!) pmos
+M12 (net15 net15 net10 vdd!) pmos
+M11 (net6 net13 net10 vdd!) pmos
+M10 (net9 net13 net10 vdd!) pmos
+M9 (net7 net15 net6 vdd!) pmos
+M8 (net8 net15 net9 vdd!) pmos

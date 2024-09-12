@@ -1,0 +1,11 @@
+M2 (vout net3 net2 vdd!) pmos
+M1 (net3 net1 net2 vdd!) pmos
+M0 (net1 net1 net2 vdd!) pmos
+M7 (vout net6 net5 0) nmos
+M6 (net6 net6 net5 0) nmos
+M5 (net4 net6 net5 0) nmos
+M4 (net3 vip net4 0) nmos
+M3 (net1 vin net4 0) nmos
+C0 (net3 net7) capacitor c=1p
+R1 (net2 net6) resistor r=1K
+R0 (vout net7) resistor r=1K

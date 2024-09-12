@@ -1,0 +1,5 @@
+I0 (net1 net2 net3) diffamp
+M1 (net2 net5 0 0) nmos
+M0 (net4 net3 net2 0) nmos
+V0 (net1 0) vsource type=dc
+R0 (vdd! net4) resistor r=1K

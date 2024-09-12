@@ -1,0 +1,5 @@
+M1 (voutp vin net1 0) nmos
+M0 (voutn vip net1 0) nmos
+M3 (voutp vcmfb vdd! vdd!) pmos
+M2 (voutn vcmfb vdd! vdd!) pmos
+I0 (net1 0) isource type=sine

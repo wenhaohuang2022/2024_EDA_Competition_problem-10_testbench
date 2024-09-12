@@ -1,0 +1,31 @@
+M12 (net1 net21 VDD vdd!) pmos
+M11 (net18 net21 net19 vdd!) pmos
+M10 (net2 net18 net9 vdd!) pmos
+M9 (net21 net15 net9 vdd!) pmos
+M8 (net8 Vip net12 vdd!) pmos
+M7 (net7 Vip net12 vdd!) pmos
+M6 (net6 net15 net14 vdd!) pmos
+M5 (net16 net16 VDD vdd!) pmos
+M4 (net20 net20 VDD vdd!) pmos
+M3 (net19 Vbp VDD vdd!) pmos
+M2 (net9 net6 VDD vdd!) pmos
+M1 (net14 net6 VDD vdd!) pmos
+M0 (net12 Vbp VDD vdd!) pmos
+M22 (net1 net2 0 0) nmos
+M21 (net3 net2 net4 0) nmos
+M20 (net4 Vbn 0 0) nmos
+M19 (net11 net11 0 0) nmos
+M18 (net8 net13 0 0) nmos
+M17 (net7 net13 0 0) nmos
+M16 (net10 net10 0 0) nmos
+M15 (net2 net5 net8 0) nmos
+M14 (net21 net3 net8 0) nmos
+M13 (net6 net5 net7 0) nmos
+R3 (net20 net18) resistor r=1K
+R2 (net3 net11) resistor r=1K
+R1 (net5 net10) resistor r=1K
+R0 (net16 net17) resistor r=1K
+I3 (VDD net3) isource type=dc
+I2 (VDD net5) isource type=dc
+I1 (net17 0) isource type=dc
+I0 (net18 0) isource type=dc

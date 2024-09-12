@@ -1,0 +1,11 @@
+M5 (VOUT net4 vdd! vdd!) pmos
+M4 (net4 net4 vdd! vdd!) pmos
+M3 (net4 net3 vdd! vdd!) pmos
+M2 (net3 net4 vdd! vdd!) pmos
+M1 (net3 net3 vdd! vdd!) pmos
+M0 (net1 net3 vdd! vdd!) pmos
+M9 (VOUT net1 0 0) nmos
+M8 (net1 net1 0 0) nmos
+M7 (net3 VIN\+ net5 0) nmos
+M6 (net4 VIN\- net5 0) nmos
+I0 (net5 0) isource type=sine

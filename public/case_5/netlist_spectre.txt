@@ -1,0 +1,21 @@
+M16 (net17 net4 net2 vdd!) pmos
+M11 (net15 net16 net14 vdd!) pmos
+M10 (net14 net3 net2 vdd!) pmos
+M9 (net13 net4 net2 vdd!) pmos
+M4 (net8 net9 net1 vdd!) pmos
+M3 (net6 net7 net1 vdd!) pmos
+M2 (net5 net5 net2 vdd!) pmos
+M1 (net4 net5 net2 vdd!) pmos
+M0 (net1 net3 net2 vdd!) pmos
+M15 (net17 net15 net11 0) nmos
+M14 (net13 net12 net11 0) nmos
+M13 (net13 net13 net11 0) nmos
+M12 (net15 net13 net11 0) nmos
+M8 (net8 net12 net11 0) nmos
+M7 (net6 net12 net11 0) nmos
+M6 (net5 net10 net8 0) nmos
+M5 (net4 net10 net6 0) nmos
+R0 (net15 net18) resistor r=1K
+C2 (net17 net11) capacitor c=1p
+C1 (net6 net17) capacitor c=1p
+C0 (net18 net11) capacitor c=1p

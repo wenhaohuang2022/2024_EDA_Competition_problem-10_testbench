@@ -1,0 +1,29 @@
+M12 (net9 net2 vdd! vdd!) pmos
+M11 (Vref net4 net9 vdd!) pmos
+M10 (net2 net4 net8 vdd!) pmos
+M9 (net8 net2 vdd! vdd!) pmos
+M8 (net7 net2 vdd! vdd!) pmos
+M7 (net1 net4 net7 vdd!) pmos
+M6 (net18 net2 vdd! vdd!) pmos
+M5 (net17 net4 net18 vdd!) pmos
+M4 (net4 net4 vdd! vdd!) pmos
+M3 (net13 net4 net16 vdd!) pmos
+M2 (net16 net2 vdd! vdd!) pmos
+M1 (net15 0 net14 vdd!) pmos
+M0 (net14 0 vdd! vdd!) pmos
+M22 (net10 net1 net11 0) nmos
+M21 (net2 net13 net10 0) nmos
+M20 (net6 net1 net5 0) nmos
+M19 (net1 net13 net6 0) nmos
+M18 (net17 net17 0 0) nmos
+M17 (net4 net17 0 0) nmos
+M16 (net13 net13 net20 0) nmos
+M15 (net15 net1 0 0) nmos
+M14 (net4 net15 0 0) nmos
+M13 (net2 net15 0 0) nmos
+R1 (net11 net12) resistor r=1K
+R0 (Vref net3) resistor r=1K
+Q3 (0 0 net20 0) pnp
+Q2 (0 0 net5 0) pnp
+Q1 (0 0 net12 0) pnp
+Q0 (0 0 net3 0) pnp

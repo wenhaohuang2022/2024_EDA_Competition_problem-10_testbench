@@ -1,0 +1,3 @@
+M1 (net1 net4 net2 0) nmos
+M0 (net2 net3 0 0) nmos
+R0 (vdd! net1) resistor r=1K

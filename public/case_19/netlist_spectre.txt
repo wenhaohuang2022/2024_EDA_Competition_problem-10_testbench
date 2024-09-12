@@ -1,0 +1,15 @@
+M12 (net15 net13 net2 vdd!) pmos
+M11 (net13 net13 net2 vdd!) pmos
+M4 (net8 net9 net1 vdd!) pmos
+M3 (net6 net7 net1 vdd!) pmos
+M2 (net5 net5 net2 vdd!) pmos
+M1 (net4 net5 net2 vdd!) pmos
+M0 (net1 net3 net2 vdd!) pmos
+M14 (net16 net16 net11 0) nmos
+M13 (net15 net15 net16 0) nmos
+M10 (net14 net14 net11 0) nmos
+M9 (net13 net14 net11 0) nmos
+M8 (net8 net12 net11 0) nmos
+M7 (net6 net12 net11 0) nmos
+M6 (net5 net10 net8 0) nmos
+M5 (net4 net10 net6 0) nmos

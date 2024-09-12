@@ -1,0 +1,8 @@
+Q3 (Vout VB \-5V 0) npn
+Q2 (net4 VB \-5V 0) npn
+Q1 (net3 V\+ net4 0) npn
+Q0 (net2 V\- net4 0) npn
+Q7 (Vout net3 \5V 0) pnp
+Q6 (0 net2 net1 0) pnp
+Q5 (net3 net1 \5V 0) pnp
+Q4 (net2 net1 \5V 0) pnp

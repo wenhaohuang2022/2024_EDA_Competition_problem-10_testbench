@@ -1,0 +1,13 @@
+M4 (VOUT\- net4 0 0) nmos
+M3 (VOUT\+ net3 0 0) nmos
+M0 (net3 VIN\+ net1 0) nmos
+M11 (net4 VIN\- net1 0) nmos
+M2 (VOUT\+ net5 VDD vdd!) pmos
+M1 (VOUT\- net5 VDD vdd!) pmos
+M16 (net4 net2 VDD vdd!) pmos
+M15 (net3 net2 VDD vdd!) pmos
+R3 (net5 VOUT\+) resistor r=1K
+R2 (VOUT\- net5) resistor r=1K
+R1 (net2 net4) resistor r=1K
+R0 (net3 net2) resistor r=1K
+I0 (net1 0) isource type=dc

@@ -1,0 +1,7 @@
+M0 (VOUT net3 VIN vdd!) pmos
+R3 (VOUT net2) resistor r=1K
+R2 (net1 0) resistor r=1K
+R1 (VOUT net1) resistor r=1K
+R0 (VOUT 0) resistor r=1K
+C0 (net2 0) capacitor c=1p
+I3 (net1 VREF net3) diffamp

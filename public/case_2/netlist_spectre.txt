@@ -1,0 +1,10 @@
+I0 (net2 net5 net8) diffamp
+M2 (net2 net8 net3 vdd!) pmos
+M1 (net6 net8 net3 vdd!) pmos
+M0 (net4 net8 net3 vdd!) pmos
+R2 (net6 net1) resistor r=1K
+R1 (net6 net7) resistor r=1K
+R0 (net4 net5) resistor r=1K
+Q2 (net7 net1 net1 0) npn
+Q1 (net2 net1 net1 0) npn
+Q0 (net5 net1 net1 0) npn
