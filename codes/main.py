@@ -1,10 +1,11 @@
 import time
+import warnings
 import os
 from math import log10  
-from private.utils import *
+from utils import *
 
 # 单个测例的测试函数
-def test_case(case, solution):
+def test_case(case, solution,timeout=30):
     # 获取测例信息：编号、电路图、电路功能、spectre网表和异构图
     case_id = case['case_id'] 
     true_label = case['label'] 
@@ -34,9 +35,9 @@ def test_case(case, solution):
     # 多次计算GED，取最小值
     test2_results = []
     test2_result_min = None
-    N = 1 # 重复计算的1次
+    N = 3 # 重复计算3次
     for i in range(0,N):
-        ged_result = ged(ckt_graph, true_graph)
+        ged_result = ged(ckt_graph, true_graph,timeout)
         if ged_result == 0:
             test2_result_min = 0
             break
@@ -87,14 +88,15 @@ def generate_report(reports,F_total,K_total,T_total,num_cases):
     final_F = F_total / num_cases
     final_K = 1 / log10(10 + K_total)
     final_T = T_total * 1000000 / num_cases
-    final_result = f"\n ## 综合测试结果\n\n总得分| 功能识别精确度F | 网表识别精确度K | 平均运行时间T (us)\n--- | --- | --- | --- \n 略 | {final_F:.0f} | {final_K:.0f} | {final_T:.3f} \n\n"
+    final_result = f"\n ## 综合测试结果\n\n总得分| 功能识别精确度F | 网表识别精确度K | 平均运行时间T (us)\n--- | --- | --- | --- \n 略 | {final_F:.1f} | {final_K:.1f} | {final_T:.3f} \n\n"
     markdown_table = f"# 测试报告\n\n{header_line}\n{separator_line}\n" + "\n".join(rows) + final_result
-    with open('report_on_public_cases.md', "w", encoding="utf-8") as file:
+    report_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'report_on_public_cases.md')
+    with open(report_path, "w", encoding="utf-8") as file:
         file.write(markdown_table)
-    print(f"测试报告已保存在 {os.path.join(os.path.dirname(os.path.abspath(__file__)),'report_on_public_cases.md')}")
+    print(f"测试报告已保存在 {report_path}")
 
 # 运行所有测例的函数
-def run_tests(solution):
+def run_tests(solution,timeout=30):
 
     # 初始化测试结果
     reports = []
@@ -103,16 +105,17 @@ def run_tests(solution):
     T_total = 0
 
     # 加载所有的测试用例
-    pkl_path = '/home/public/public.pkl'
-    pkl_path_1 = '/home/huangwenhao/WORK/gnn_project/EDA_comp/public/public.pkl'
-    public_cases = load_from_pkl(pkl_path_1)
+    pkl_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'public.pkl')
+    public_cases = load_from_pkl(pkl_path)
     num_cases = len(public_cases)   
 
     # 开始测试
     for case in public_cases:
 
         ##############测试部分###################
-        report = test_case(case, solution)
+        
+        report = test_case(case, solution,timeout)
+        
         ########################################
 
         print(f'测例 {report["测例编号"]} 已完成')
@@ -129,12 +132,15 @@ def run_tests(solution):
 
 
 if __name__ == '__main__':
-
+    # 忽略警告信息
+    warnings.filterwarnings("ignore", category=FutureWarning)
+    
     # 导入参赛队伍的解决方案
     from my_solution import solution
-
     # 运行测试
-    run_tests(solution)
+    run_tests(solution,timeout=1)
+
+    
 
 
 

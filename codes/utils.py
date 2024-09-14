@@ -1,24 +1,23 @@
-from networkx import graph_edit_distance
-import networkx as nx
-from torch.utils.data import DataLoader
 import os
 import dgl
-import torch as th
-import matplotlib.pyplot as plt
 import re
+import torch as th
+import networkx as nx
+from networkx import graph_edit_distance
+from torch.utils.data import DataLoader
 
 class UnsupportedInstanceError(Exception):
     pass
 class HeteroGraph:
     """
-        输入: sp_netlist 或 json 格式的电路数据，解析其中的组件信息，并完成3种等价表示的补全。
-        主要方法: 
-            - generate_all_from_spectre_netlist: 输入 spectre netlist, 输出json和graph
-            - generate_all_from_json: 输入 json, 输出spectre netlist和graph
+        ??: sp_netlist ? json ???????,?????????,???3?????????
+        ????: 
+            - generate_all_from_spectre_netlist: ?? spectre netlist, ??json?graph
+            - generate_all_from_json: ?? json, ??spectre netlist?graph
     
     """
     def __init__(self):
-        # 初始化命令
+        # ?????
         self.num_pmos = 0
         self.edge_dp2n = []
         self.edge_gp2n = []
@@ -148,31 +147,31 @@ class HeteroGraph:
         self.label = json['ckt_type']
 
     def extract_col(self,matrix):
-        # 提取第一列和第二列
+        # ?????????
         src = [row[0] for row in matrix]
         dst = [row[1] for row in matrix]
         return src, dst
 
     def extract_content(self,text):
-        # 定义正则表达式模式
+        # ?????????
         pattern = re.compile(r'[A-Z][a-zA-Z0-9]* \(')
         
-        # 找到所有匹配的行
+        # ????????
         matches = list(pattern.finditer(text))
         
         if not matches:
-            return "没有找到符合格式的内容"
+            return "???????????"
         
-        # 获取第一个和最后一个匹配的位置
+        # ???????????????
         first_pos = matches[0].start()
         last_pos = matches[-1].start()
         
-        # 找到最后一个匹配行的结束位置
+        # ??????????????
         last_line_end = text.find('\n', last_pos)
         if last_line_end == -1:
             last_line_end = len(text)
         
-        # 提取第一个和最后一个匹配之间的内容
+        # ?????????????????
         extracted_content = text[first_pos:last_line_end]
 
         return extracted_content 
@@ -181,25 +180,25 @@ class HeteroGraph:
         match_1 = re.match(r'(\w+)\s*\(([^)]+)\)', line)
         if not match_1:
                 return False
-        # 提取第一个单词
+        # ???????
         name = match_1.group(1)
 
-        # 提取括号中的内容，并分割成列表
+        # ????????,??????
         ports = match_1.group(2).split()
         
-        # 查找第一个捕获组
+        # ????????
         match_2 = re.search(r'\)\s+(\w+)', line)
         type = match_2.group(1)
 
-        # 从第一个捕获组开始的子字符串
+        # ??????????????
         start_index = match_2.end(1)
         substring = line[start_index:]
 
-        # 正则表达式匹配 <变量名>=<值>
+        # ??????? <???>=<?>
         pattern = re.compile(r'(\w+)=([^,\s]+)')
         matches = pattern.findall(substring)
 
-        # 将匹配结果保存到字典中
+        # ???????????
         values = {var: val for var, val in matches}
         
         return name, ports, type, values
@@ -303,60 +302,6 @@ class HeteroGraph:
         key = reversed_dict.get(value)
         return key
 
-    def plot_het(self,nx_g1):
-        
-        import matplotlib.pyplot as plt
-        import networkx as nx
-        import matplotlib.patches as mpatches
-
-        color_map = {
-        'PNP': '#2ECC71',  # 绿色，稍微亮一些
-        'NPN': '#9B59B6',  # 紫色，稍微亮一些
-        'R': '#FAD02E',    # 橙色，保持不变
-        'C': '#007E6D',    # 青色，保持不变
-        'L': '#FF5733',    # 亮红色，新的颜色
-        'ISOURCE': '#F39C12',  # 深黄色，新的颜色
-        'VSOURCE': '#FF69B4',  # 粉色，稍微亮一些
-        'DISO': '#A52A2A',  # 棕色，保持不变
-        'DIDO': '#95A5A6',  # 灰色，稍微亮一些
-        'SISO': '#34495E',  # 深蓝色，替代黑色
-        'net': '#6C30A2',   # 深紫色，保持不变
-        'PMOS': '#0043AC',  # 蓝色，保持不变
-        'NMOS': '#D82D5B',   # 红色，保持不变
-        "DIODE": "#FFD700",
-        "S": "#8B4513",
-    }
-
-        # 获取节点类型并为每个节点分配颜色
-        node_colors = []
-        for n, d in nx_g1.nodes(data=True):
-            ntype = d['ntype']
-            node_colors.append(color_map[ntype])
-
-        # 绘制图形
-        plt.figure(figsize=(12, 12))
-        pos = nx.spring_layout(nx_g1)
-        nx.draw_networkx_nodes(nx_g1, pos, alpha=1, node_size=150, node_color=node_colors)
-        ax = plt.gca()
-        for e in nx_g1.edges:
-            ax.annotate("",
-                        xy=pos[e[0]], xycoords='data',
-                        xytext=pos[e[1]], textcoords='data',
-                        arrowprops=dict(arrowstyle="-", color="0",
-                                        linewidth=2,  
-                                        shrinkA=10, shrinkB=10,
-                                        patchA=None, patchB=None,
-                                        connectionstyle="arc3,rad=rrr".replace('rrr', str(0.3*e[2]))
-                                        ),
-                        )
-
-        # 添加图例
-        legend_handles = [mpatches.Patch(color=color, label=label) for label, color in color_map.items()]
-        plt.legend(handles=legend_handles, loc='best')
-        # 关闭坐标轴
-        plt.axis('off')
-        # 显示图像
-        plt.show()
 
     def get_net_index(self,ports,is_3=False):
         net_index = []
@@ -735,50 +680,49 @@ class HeteroGraph:
         is_successful = True
         data = self.extract_content(sp_netlist)
 
-        for line in data.strip().split('\n'):  # 处理每行
+        for line in data.strip().split('\n'):  # ????
             component_info = self.get_component_info(line)
             if not component_info:
                 continue
             try:
-                # 设置索引序号, 创建边
-                match component_info[2]:
-                    case 'pmos': 
-                        self.create_pmos(component_info)
-                    case 'pmos4':
-                        self.create_pmos4(component_info)
-                    case 'nmos':
-                        self.create_nmos(component_info)
-                    case 'nmos4':
-                        self.create_nmos4(component_info)
-                    case 'npn':
-                        self.create_npn(component_info)
-                    case 'pnp':
-                        self.create_pnp(component_info)
-                    case 'resistor' | 'res':
-                        self.create_resistor(component_info)
-                    case 'capacitor' | 'cap':
-                        self.create_capacitor(component_info)
-                    case 'inductor':
-                        self.create_inductor(component_info)
-                    case 'diode':
-                        self.create_diode(component_info)
-                    case 'switch':
-                        self.create_switch(component_info)
-                    case 'isource':
-                        self.create_isource(component_info)
-                    case 'vsource':
-                        self.create_vsource(component_info)
-                    case 'amp':
-                        self.create_siso(component_info)
-                    case 'diffamp' | 'opamp':
-                        self.create_diso(component_info)
-                    case 'dido'|'fullydiffamp':
-                        self.create_dido(component_info)
-                    case _:
-                        
-                        print(f"unsupported instance occurs")
-                        print(component_info)
-                        raise UnsupportedInstanceError("Unsupported instance type encountered")
+                # ??????, ???
+                if component_info[2] == 'pmos':
+                    self.create_pmos(component_info)
+                elif component_info[2] == 'pmos4':
+                    self.create_pmos4(component_info)
+                elif component_info[2] == 'nmos':
+                    self.create_nmos(component_info)
+                elif component_info[2] == 'nmos4':
+                    self.create_nmos4(component_info)
+                elif component_info[2] == 'npn':
+                    self.create_npn(component_info)
+                elif component_info[2] == 'pnp':
+                    self.create_pnp(component_info)
+                elif component_info[2] in ('resistor', 'res'):
+                    self.create_resistor(component_info)
+                elif component_info[2] in ('capacitor', 'cap'):
+                    self.create_capacitor(component_info)
+                elif component_info[2] == 'inductor':
+                    self.create_inductor(component_info)
+                elif component_info[2] == 'diode':
+                    self.create_diode(component_info)
+                elif component_info[2] == 'switch':
+                    self.create_switch(component_info)
+                elif component_info[2] == 'isource':
+                    self.create_isource(component_info)
+                elif component_info[2] == 'vsource':
+                    self.create_vsource(component_info)
+                elif component_info[2] == 'amp':
+                    self.create_siso(component_info)
+                elif component_info[2] in ('diffamp', 'opamp'):
+                    self.create_diso(component_info)
+                elif component_info[2] in ('dido', 'fullydiffamp'):
+                    self.create_dido(component_info)
+                else:
+                    print(f"unsupported instance occurs")
+                    print(component_info)
+                    raise UnsupportedInstanceError("Unsupported instance type encountered")
+
             except UnsupportedInstanceError as e:
                 print(f"Error: {e}")
                 is_successful = False
@@ -888,7 +832,7 @@ class HeteroGraph:
                 th.tensor(self.extract_col(self.edge_siso_vout2n)[1], dtype=th.int64))
         }
         self.het_graph = None
-        self.het_graph = dgl.heterograph(graph_data) # 没有设置特征值，仅设置定义了连接关系。
+        self.het_graph = dgl.heterograph(graph_data) # ???????,???????????
         self.reset_globals()
 
         if not is_json_generated:
@@ -940,12 +884,12 @@ class HeteroGraph:
 ## utils
 
 def to_MG(nx_g):
-    # 创建一个多重图
+    # ???????
     MG = nx.MultiGraph()
-    # 添加节点并赋予属性
+    # ?????????
     for node, data in nx_g.nodes(data=True):
         MG.add_node(node, ntype=data['ntype'])
-    # 添加多条边并赋予属性
+    # ??????????
     for u, v, key, data in nx_g.edges(keys=True, data=True):
         MG.add_edge(u, v, key=key, etype=str(data['etype'][1]))
     return MG
@@ -961,16 +905,16 @@ def edge_match(dicta,dictb):
     else:
         return False
     
-def ged(graph1, graph2):
-    # 计算graph1和graph2的图编辑距离
+def ged(graph1, graph2,timeout=30):
+    # ??graph1?graph2??????
 
     nx_1 = to_MG(graph1.to_networkx().to_undirected())
     nx_2 = to_MG(graph2.to_networkx().to_undirected())
-    return graph_edit_distance(nx_1,nx_2,node_match,edge_match,timeout=1)
+    return graph_edit_distance(nx_1,nx_2,node_match,edge_match,timeout=timeout)
 
 def minimum(lst):
     if not lst:
-        raise ValueError("列表不能为空")
+        raise ValueError("??????")
     
     minimum = lst[0]
     for num in lst[1:]:
@@ -978,20 +922,20 @@ def minimum(lst):
             minimum = num
     return minimum
 def average(lst):
-    # 检查列表是否为空
+    # ????????
     if not lst:
-        raise ValueError("列表不能为空")
+        raise ValueError("??????")
     
-    # 初始化总和和计数器
+    # ?????????
     total_sum = 0
     count = 0
     
-    # 遍历列表，累加总和并计数
+    # ????,???????
     for num in lst:
         total_sum += num
         count += 1
     
-    # 计算平均数
+    # ?????
     average = total_sum / count
     return average
 

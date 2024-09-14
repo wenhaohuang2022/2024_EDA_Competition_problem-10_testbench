@@ -7,9 +7,9 @@ def solution(case_image):
 
     # case_image是二进制图像编码，可通过下面的方式转存为png格式
     # 假设输出图像文件路径为case_image_path
-    case_image_path = 'case_image.png'
-    with open(case_image_path, 'wb') as img_file:
-        img_file.write(image)
+    #case_image_path = 'case_image.png'
+    #with open(case_image_path, 'wb') as img_file:
+    #    img_file.write(image)
     # 当不需要输出图像文件时，可以注释掉这段的代码
 
 
